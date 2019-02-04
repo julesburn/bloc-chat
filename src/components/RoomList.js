@@ -1,8 +1,5 @@
 
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
-import './App.css';
-
 
 class RoomList extends Component {
   constructor(props) {
@@ -24,13 +21,14 @@ class RoomList extends Component {
 
 render() {
   return(
-    <section className={style.container}>
+    <section>
       <h1>Room List</h1>
-      {this.state.rooms.map( (room =>
-        <h1>key={room.key}>{room.name}</h1>
+      {this.state.rooms.map( room =>
+        <h1 key={room.key}>{room.name}</h1>
     )}
     </section>
   );
+}
 }
 
 export default RoomList;
