@@ -32,12 +32,18 @@ createRoom(e){
   e.preventDefault();
 }
 
+setRoom(room){
+  this.props.setActiveRoom(room);
+  console.log(room)
+}
+
 render() {
   return(
     <section>
-      <h1>Room List</h1>
+      <div>Room List</div>
+
       {this.state.rooms.map( room =>
-        <h1 key={room.key}>{room.name}</h1>
+        <h3 key={room.key} onClick={() => this.setRoom(room)}>{room.name}</h3>
     )}
       <form onSubmit={(event) => this.createRoom(event)}>
         <input type="text" value={this.state.newRoom} placeholder="Enter Name" onChange={ (e) => this.handleChange(e)}/>
