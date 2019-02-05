@@ -3,6 +3,7 @@ import './App.css';
 import * as firebase from 'firebase';
 import RoomList from './components/RoomList';
 import MessageList from './components/MessageList';
+import User from './components/User';
 
 var config = {
   apiKey: "AIzaSyC0YBs_byzdaOmeXnqhgQ39Aw_V-YioWqY",
@@ -27,6 +28,10 @@ firebase.initializeApp(config);
     setActiveRoom = (selectedRoom) => {
       this.setState({activeRoom: selectedRoom.name });
       this.setState({activeRoomId: selectedRoom.key });
+    }
+
+    setUser = (user) => {
+      this.setState({user: user});
     }
 
     render() {

@@ -48,7 +48,7 @@ render() {
     <section>
     <div className="activeRoom">Active Room: {this.props.activeRoom}</div>
       <form onSubmit={(e) => this.handleCreateMessage(e)}>
-        <input type="text" value={this.state.newMessage} onChange={ (e) => this.handleChange(e) }/>
+        <input type="text" placeholder="Enter Message" value={this.state.newMessage} onChange={ (e) => this.handleChange(e) }/>
         <button type="submit">Send Message</button>
       </form>
 
