@@ -5,20 +5,20 @@ class User extends Component {
     super(props);
   }
 
-  handleSignIn =() => {
-    const provider = new this.props.firebase.auth.GoogleAuthProvider();
-    this.props.firebase.auth().signInWithPopup( provider ).then( result =>{
-      var token = result.credential.accessToken;
-      var user = result.user.displayName;
-      this.props.setUser(user);
-      console.log(user);
-    });
+  handleSignIn = () => {
+      const provider = new this.props.firebase.auth.GoogleAuthProvider();
+      this.props.firebase.auth().signInWithPopup( provider ).then( result => {
+          var token = result.credential.accessToken;
+          var user = result.user.displayName;
+          this.props.setUser(user);
+          console.log(user);
+      });
   }
 
   handleSignOut() {
-    this.props.firebase.auth().signOut().then( () => {
-      this.props.setUser(null);
-    });
+      this.props.firebase.auth().signOut().then( () => {
+          this.props.setUser(null);
+      });
   }
 
   componentDidMount() {
@@ -37,4 +37,5 @@ class User extends Component {
     );
   }
 }
-  export default User;
+
+export default User;

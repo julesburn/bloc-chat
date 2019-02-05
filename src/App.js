@@ -21,7 +21,7 @@ firebase.initializeApp(config);
         this.state = {
           activeRoom: null,
           activeRoomId: "",
-          currentUser: "Guest User"
+          user: null,
         }
     }
 
@@ -52,8 +52,13 @@ firebase.initializeApp(config);
               firebase = {firebase}
               activeRoom={this.state.activeRoom}
               activeRoomId={this.state.activeRoomId}
-              user={this.state.currentUser}
               />
+            <div className="User">
+              <User firebase={firebase}
+              setUser={this.setUser}
+              user={this.state.user}
+              />
+              </div>
             </div>
           </div>
         </div>
