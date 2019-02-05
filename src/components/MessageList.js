@@ -6,7 +6,7 @@ class MessageList extends Component {
 
     this.state = {
       messageList : [],
-      roomId: '',
+      roomId: "",
       newMessage: '',
       user: '',
       sendAt: ''
@@ -47,20 +47,17 @@ render() {
   return(
     <section>
     <div className="activeRoom">Active Room: {this.props.activeRoom}</div>
-      <h2>Message List placeholder</h2>
-      <h4>{this.props.activeRoom}</h4>
       <form onSubmit={(e) => this.handleCreateMessage(e)}>
         <input type="text" value={this.state.newMessage} onChange={ (e) => this.handleChange(e) }/>
         <button type="submit">Send Message</button>
       </form>
 
-    { this.state.messageList.map( message =>
-        {if (message.roomId === this.props.activeRoomId){
+      {this.state.messageList.map( message =>
+        {if (message.roomId === this.props.activeRoomId) {
           return <h4 key={message.key}>{message.message}</h4>
         }
-      return null;}
+        return null;}
     )}
-
     </section>
   );
 }
