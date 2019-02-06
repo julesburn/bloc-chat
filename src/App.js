@@ -37,35 +37,35 @@ firebase.initializeApp(config);
     render() {
       return (
         <div className="App">
-          <div className="header">
-            <header>Feelin' Chatty</header>
+          <header>Feelin' Chatty</header>
+          <div className="row">
+            <div className="column1">
+              <RoomList
+              firebase = {firebase}
+              setActiveRoom={this.setActiveRoom.bind(this)}
+              />
+            </div>
           </div>
-          <div className="roomList">
-          <RoomList
-            firebase = {firebase}
-            setActiveRoom={this.setActiveRoom.bind(this)}
-            />
-          </div>
-          <div className="container">
-            <div className="messageList">
+          <div className="row">
+            <div className="column2">
               <MessageList
               firebase = {firebase}
               activeRoom={this.state.activeRoom}
               activeRoomId={this.state.activeRoomId}
               user={this.state.user}
               />
-            <div className="User">
+            </div>
+          </div>
+          <div className="User">
               <User
               firebase={firebase}
               setUser={this.setUser}
               user={this.state.user}
               />
-              </div>
-            </div>
           </div>
         </div>
-      );
-    }
-  }
+          );
+        }
+      }
 
   export default App;

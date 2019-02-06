@@ -28,7 +28,9 @@ class User extends Component {
   render() {
     return (
       <section className="User">
-        <div>{this.props.user ? this.props.user.displayName: "Guest"}</div>
+        <div>
+        <p>Signed in as: {this.props.user ? this.props.user.displayName: "Guest"}</p>
+        </div>
         <button onClick={() => this.handleSignIn()}>Sign In</button>
         <button onClick={() => this.handleSignOut()}>Sign Out</button>
       </section>

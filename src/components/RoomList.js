@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import style from './../roomlistdisplay.css';
+import '.././roomdisplay.css';
 
 class RoomList extends Component {
   constructor(props) {
@@ -40,11 +40,12 @@ setRoom(room){
 
 render() {
   return(
-    <section className={style.roomListContainer}>
+    <section className="container">
       <div>Room List</div>
 
       {this.state.rooms.map( room =>
-        <h3 className={room.key === this.props.activeRoomId ? style.activeRoom : ''}
+        <h3 key={room.key}
+        className={room.key === this.props.activeRoomId ? "aciveRoom": ''}
         onClick={() => this.setRoom(room)}>{room.name}</h3>
     )}
       <form onSubmit={(event) => this.createRoom(event)}>

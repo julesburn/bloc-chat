@@ -1,0 +1,48 @@
+.container {
+}
+
+.none {
+    display: none;
+}
+
+.activeRoom {
+}
+
+.defaultRoom {
+}
+
+/* Create two columns that floats next to each other */
+.column1 {
+  font-family: verdana;
+  font-size: 10px;
+  font-weight: bold;
+  float: left;
+  width: 20%;
+  padding: 2px;
+  background: lightgray;
+  border: 1px solid black;
+  display: inline;
+}
+
+.column2{
+  font-family: verdana;
+  font-size: 8px;
+  font-weight: normal;
+  text-align: justify;
+  float: none;
+  width: 90;
+  padding: 10px;
+  background: linen;
+  border: 1px solid black;
+}
+
+header{
+  background: linen;
+  border: 2px solid black;
+  width: 200px;
+  align: center;
+  border-radius: 40%;
+  font-family:verdana;
+  font-size: 20px;
+  font-weight: bold;
+}

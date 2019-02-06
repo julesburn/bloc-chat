@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import style from './../messagelistdisplay.css';
+import '.././roomdisplay.css';
 
 class MessageList extends Component {
   constructor(props) {
@@ -49,9 +49,8 @@ handleCreateMessage(e){
 
 render() {
   return(
-    <section className={this.props.activeRoom ? style.active : style.none}>
-      <div className="messageArea">
-      <div className="activeRoom">Active Room: {this.props.activeRoom}</div>
+    <section className={this.props.activeRoom ? "activeRoom" : "defaultRoom"}>
+      <div>Active Room: {this.props.activeRoom}</div>
       <p>Message Area</p>
 
       {this.state.messageList.map( message =>
@@ -61,7 +60,6 @@ render() {
         }
         return null;}
     )}
-    </div>
       <form onSubmit={(e) => this.handleCreateMessage(e)}>
         <input type="text" placeholder="Enter Message" value={this.state.newMessage} onChange={ (e) => this.handleChange(e) }/>
         <button type="submit">Send Message</button>
