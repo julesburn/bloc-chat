@@ -1,0 +1,12 @@
+.roomListContainer {
+    width: 30%;
+    background-color: green;
+    text-align: left;
+    padding: 2rem;
+}
+
+.activeRoom {
+  background-color: blue;
+  text-align: right;
+  padding: 2rem;
+}

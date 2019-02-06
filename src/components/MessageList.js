@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import style from './../messagelistdisplay.css';
 
 class MessageList extends Component {
   constructor(props) {
@@ -48,7 +49,7 @@ handleCreateMessage(e){
 
 render() {
   return(
-    <section>
+    <section className={this.props.activeRoom ? style.active : style.none}>
       <div className="messageArea">
       <div className="activeRoom">Active Room: {this.props.activeRoom}</div>
       <p>Message Area</p>

@@ -1,5 +1,6 @@
 
 import React, { Component } from 'react';
+import style from './../roomlistdisplay.css';
 
 class RoomList extends Component {
   constructor(props) {
@@ -39,11 +40,12 @@ setRoom(room){
 
 render() {
   return(
-    <section>
+    <section className={style.roomListContainer}>
       <div>Room List</div>
 
       {this.state.rooms.map( room =>
-        <h3 key={room.key} onClick={() => this.setRoom(room)}>{room.name}</h3>
+        <h3 className={room.key === this.props.activeRoomId ? style.activeRoom : ''}
+        onClick={() => this.setRoom(room)}>{room.name}</h3>
     )}
       <form onSubmit={(event) => this.createRoom(event)}>
         <input type="text" value={this.state.newRoom} placeholder="Enter Name" onChange={ (e) => this.handleChange(e)}/>
