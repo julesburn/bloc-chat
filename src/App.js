@@ -52,9 +52,11 @@ firebase.initializeApp(config);
               firebase = {firebase}
               activeRoom={this.state.activeRoom}
               activeRoomId={this.state.activeRoomId}
+              user={this.state.user}
               />
             <div className="User">
-              <User firebase={firebase}
+              <User
+              firebase={firebase}
               setUser={this.setUser}
               user={this.state.user}
               />

@@ -6,9 +6,9 @@ class MessageList extends Component {
 
     this.state = {
       messageList : [],
-      roomId: "",
+      roomId: '',
       newMessage: '',
-      user: '',
+      username: '',
       sendAt: ''
 }
 
@@ -16,6 +16,7 @@ class MessageList extends Component {
     };
 
   componentDidMount() {
+    console.log(this.messagesRef);
     this.messagesRef.on('child_added', snapshot => {
       const message = snapshot.val();
       message.key = snapshot.key;
@@ -23,10 +24,11 @@ class MessageList extends Component {
   });
 }
 
-handleChange(event) {
+handleChange(e) {
     this.setState({
-        newMessage: event.target.value,
-        roomId: this.props.activeRoomId
+        newMessage: e.target.value,
+        roomId: this.props.activeRoomId,
+        username: this.props.user ? this.props.user.displayName: "Guest"
     });
 
 }
@@ -37,27 +39,32 @@ handleCreateMessage(e){
     message: this.state.newMessage,
     roomId: this.state.roomId,
     sendAt: this.props.firebase.database.ServerValue.TIMESTAMP,
-    user: this.state.user
+    user: this.state.username
   })
-  e.preventDefault();
   this.setState({newMessage: ''});
+  e.preventDefault();
 }
+
 
 render() {
   return(
     <section>
-    <div className="activeRoom">Active Room: {this.props.activeRoom}</div>
+      <div className="messageArea">
+      <div className="activeRoom">Active Room: {this.props.activeRoom}</div>
+      <p>Message Area</p>
+
+      {this.state.messageList.map( message =>
+        {if (message.roomId === this.props.activeRoomId) {
+          return <div key={message.key}><h6>{message.user}:</h6><p>{message.message}</p></div>
+
+        }
+        return null;}
+    )}
+    </div>
       <form onSubmit={(e) => this.handleCreateMessage(e)}>
         <input type="text" placeholder="Enter Message" value={this.state.newMessage} onChange={ (e) => this.handleChange(e) }/>
         <button type="submit">Send Message</button>
       </form>
-
-      {this.state.messageList.map( message =>
-        {if (message.roomId === this.props.activeRoomId) {
-          return <h4 key={message.key}>{message.message}</h4>
-        }
-        return null;}
-    )}
     </section>
   );
 }
