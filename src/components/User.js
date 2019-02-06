@@ -5,27 +5,25 @@ class User extends Component {
     super(props);
   }
 
+  componentDidMount() {
+    this.props.firebase.auth().onAuthStateChanged( user => {
+    this.props.setUser(user);
+  });
+}
+
   handleSignIn = () => {
       const provider = new this.props.firebase.auth.GoogleAuthProvider();
-      this.props.firebase.auth().signInWithPopup( provider ).then( result => {
-          var token = result.credential.accessToken;
-          var user = result.user.displayName;
-          this.props.setUser(user);
-          console.log(user);
+      this.props.firebase.auth().signInWithPopup( provider ).then(result =>{
+        var user = result.user.displayName;
+        this.props.setUser(user);
       });
-  }
+}
 
   handleSignOut() {
       this.props.firebase.auth().signOut().then( () => {
           this.props.setUser(null);
       });
   }
-
-  componentDidMount() {
-    this.props.firebase.auth().onAuthStateChanged( user => {
-    this.props.setUser(user);
-  });
-}
 
   render() {
     return (

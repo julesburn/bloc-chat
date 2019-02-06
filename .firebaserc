@@ -1,1 +1,6 @@
-{}
+{
+  "projects": {
+    "staging": "bloc-jams-music-player",
+    "default": "feelin-chatty"
+  }
+}
