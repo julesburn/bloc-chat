@@ -36,18 +36,22 @@ firebase.initializeApp(config);
 
     render() {
       return (
-        <div className="App">
-          <header>Feelin' Chatty</header>
+        <section className="mainBox">
           <div className="row">
             <div className="column1">
               <RoomList
               firebase = {firebase}
               setActiveRoom={this.setActiveRoom.bind(this)}
               />
+              <User
+              firebase={firebase}
+              setUser={this.setUser}
+              user={this.state.user}
+              />
             </div>
           </div>
           <div className="row">
-            <div className="column2">
+            <div className="column2" id="mainBox">
               <MessageList
               firebase = {firebase}
               activeRoom={this.state.activeRoom}
@@ -56,15 +60,8 @@ firebase.initializeApp(config);
               />
             </div>
           </div>
-          <div className="User">
-              <User
-              firebase={firebase}
-              setUser={this.setUser}
-              user={this.state.user}
-              />
-          </div>
-        </div>
-          );
+        </section>
+      );
         }
       }
 

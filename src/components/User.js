@@ -29,10 +29,10 @@ class User extends Component {
     return (
       <section className="User">
         <div>
-        <p>Signed in as: {this.props.user ? this.props.user.displayName: "Guest"}</p>
+        <h3>Signed in as: {this.props.user ? this.props.user.displayName: "Guest"}</h3>
         </div>
-        <button onClick={() => this.handleSignIn()}>Sign In</button>
-        <button onClick={() => this.handleSignOut()}>Sign Out</button>
+        <button className="btn" onClick={() => this.handleSignIn()}>Sign In</button>
+        <button className="btn" onClick={() => this.handleSignOut()}>Sign Out</button>
       </section>
     );
   }

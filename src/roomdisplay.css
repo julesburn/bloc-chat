@@ -1,16 +1,10 @@
-.container {
-}
+#logopic{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 25%;
 
-.none {
-    display: none;
 }
-
-.activeRoom {
-}
-
-.defaultRoom {
-}
-
 /* Create two columns that floats next to each other */
 .column1 {
   font-family: verdana;
@@ -19,30 +13,58 @@
   float: left;
   width: 20%;
   padding: 2px;
-  background: lightgray;
+  background: #F4976C;
   border: 1px solid black;
   display: inline;
 }
 
 .column2{
   font-family: verdana;
-  font-size: 8px;
+  font-size: 14px;
   font-weight: normal;
-  text-align: justify;
-  float: none;
-  width: 90;
+  float: right;
+  width: 75%;
   padding: 10px;
-  background: linen;
+  background: #FBE8A6;
   border: 1px solid black;
+
 }
 
-header{
-  background: linen;
-  border: 2px solid black;
-  width: 200px;
-  align: center;
-  border-radius: 40%;
-  font-family:verdana;
-  font-size: 20px;
-  font-weight: bold;
+.mainBox{
+  margin-left: 200px;
+  margin-right: 200px;
+  margin-bottom: 200px;
+  margin-top: 20px;
+}
+
+/*Enter Chat Message and Message Display*/
+
+.column2 .messageField {
+  text-align: left;
+  width: 1100px;
+  height: 500px;
+  overflow: auto;
+}
+
+#msgInput {
+  width: 1100px;
+  margin-top: 20px;
+
+}
+
+/*User box and buttons*/
+
+.User {
+  border: 2px black solid;
+
+}
+
+.btn {
+  background-color: #B4DFE5;
+  color: black;
+  font-family: verdana;
+  font-size: 12px;
+  box-shadow: 5px 5px 1px;
+  border-radius: 20%;
+  margin: 15px;
 }

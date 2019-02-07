@@ -40,8 +40,8 @@ setRoom(room){
 
 render() {
   return(
-    <section className="container">
-      <div>Room List</div>
+    <section>
+      <div><h2>Room List</h2></div>
 
       {this.state.rooms.map( room =>
         <h3 key={room.key}
@@ -50,7 +50,7 @@ render() {
     )}
       <form onSubmit={(event) => this.createRoom(event)}>
         <input type="text" value={this.state.newRoom} placeholder="Enter Name" onChange={ (e) => this.handleChange(e)}/>
-        <button type="submit">Create New Room</button>
+        <button className="btn" type="submit">Create New Room</button>
       </form>
     </section>
   );
