@@ -51,7 +51,7 @@ firebase.initializeApp(config);
             </div>
           </div>
           <div className="row">
-            <div className="column2" id="mainBox">
+            <div className="column2">
               <MessageList
               firebase = {firebase}
               activeRoom={this.state.activeRoom}

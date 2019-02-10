@@ -51,7 +51,7 @@ handleCreateMessage(e){
 render() {
   return(
     <section>
-      <div className="column2 messageField">
+      <div className="messageField">
         <div><h2>Room: {this.props.activeRoom}</h2></div>
         <h3>Chat Below</h3>
 

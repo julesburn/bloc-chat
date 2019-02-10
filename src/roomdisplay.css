@@ -11,6 +11,7 @@ body {
   width: 10%;
   border: 2px black solid;
   margin-top: 20px;
+  margin-bottom: 20px;
 
 }
 /* Create two columns that floats next to each other */
@@ -39,31 +40,31 @@ body {
 }
 
 .mainBox{
-  margin-left: 200px;
-  margin-right: 200px;
+  margin-left: 100px;
+  margin-right: 100px;
 }
 
 /*Enter Chat Message and Message Display*/
 
-.column2 .messageField {
+.messageField {
   text-align: left;
-  width: 1100px;
-  height: 500px;
   overflow: auto;
+  position: relative;
+  width: 90%;
+  border: 1px black solid;
+  padding: 10px;
 }
 
 #msgInput {
-  width: 1100px;
-  margin-top: 20px;
-
-
+  width: 90%;
+  height: 25px;
+  margin: 10px;
 }
 
 /*User box and buttons*/
 
 .User {
   border: 2px black solid;
-
 }
 
 .btn {
