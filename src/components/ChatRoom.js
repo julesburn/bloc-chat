@@ -12,6 +12,7 @@ class ChatRoom extends Component {
           <RoomList
             firebase = {this.props.firebase}
             activeRoom={this.props.activeRoom}
+            setActiveRoom={(room) => this.props.setActiveRoom(room)}
             setRoomToDelete={(room) => this.props.setRoomToDelete(room)}
             />
           </div>
@@ -22,11 +23,10 @@ class ChatRoom extends Component {
               setUserInfo={(user) => this.props.setUserInfo(user)}
              />
             <MessageList
-              firebase = {this.props.firebase}
               roomToDelete={this.props.roomToDelete}
+              firebase={this.props.firebase}
               activeRoom={this.props.activeRoom}
-              activeRoomId={this.props.activeRoomId}
-              user={this.props.userInfo}
+              userInfo={this.props.userInfo}
               />
             </div>
           </div>

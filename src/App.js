@@ -17,12 +17,12 @@ firebase.initializeApp(config);
     constructor(props){
       super(props);
 
-        this.defaultUserInfo = {
-          displayName: "Guest",
-          email: '',
-          photoURL: <i class="far fa-user-circle"></i>,
-          isLoggedIn: false
-        }
+      this.defaultUserInfo = {
+        displayName: "Guest",
+        email: '',
+        photoURL: "",
+        isLoggedIn: false
+  }
 
         this.state = {
           activeRoom: {},
@@ -47,14 +47,15 @@ firebase.initializeApp(config);
     }
 
     setUserInfo(user) {
-      user === null ? this.setState({userInfo: this.defaultUserInfo}) : this.setSTate(
+      user === null ? this.setState({userInfo: this.defaultUserInfo}) : this.setState(
         {userInfo: {
           displayName: user.displayName,
           email: user.email,
           photoURL: user.photoURL,
           isLoggedIn: true
         }})
-      }
+
+    }
 
     render() {
       return (

@@ -1,40 +1,59 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class User extends Component {
-  constructor(props){
+
+  constructor(props) {
     super(props);
+    this.provider = new this.props.firebase.auth.GoogleAuthProvider();
   }
+
+  signIn() {
+    this.props.firebase.auth().signInWithPopup(this.provider).then(function(result) {
+      var token = result.credential.accessToken;
+      var user = result.user;
+    }).catch(function(error) {
+    console.log(`error ${error.code} ${error.message}`)
+      });
+    }
 
   componentDidMount() {
     this.props.firebase.auth().onAuthStateChanged( user => {
-    this.props.setUser(user);
+    this.props.setUserInfo(user);
   });
 }
 
-  handleSignIn = () => {
-      const provider = new this.props.firebase.auth.GoogleAuthProvider();
-      this.props.firebase.auth().signInWithPopup( provider ).then(result =>{
-        var user = result.user.displayName;
-        this.props.setUser(user);
-      });
-}
 
-  handleSignOut() {
-      this.props.firebase.auth().signOut().then( () => {
-          this.props.setUser(null);
+  signOut() {
+      this.props.firebase.auth().signOut().then(function () {
+      }).catch(function(error){
       });
   }
 
   render() {
     return (
-      <section className="User">
-        <div>
-        <h3>Signed in as: {this.props.user ? this.props.user.displayName: "Guest"}</h3>
+
+      <nav className="navbar justify-content-md-end px-0 pt-3 pb-3">
+        <div className="px-3">
+        {this.props.userInfo.isLoggedIn ? (
+          <button
+          onClick={() => this.signOut()}
+          className="btn btn-secondary login">Sign Out</button>
+        ) : (
+          <button
+          onClick={() => this.signIn()}
+          className="btn btn-primary login">Sign In</button>
+        )
+      }
+      </div>
+      <div className="user-info">
+        <span className="user-title">{this.props.userInfo.displayName}</span><br/>
+        <span className="user-subtitle">{this.props.userInfo.email}</span>
         </div>
-        <button className="btn" onClick={() => this.handleSignIn()}>Sign In</button>
-        <button className="btn" onClick={() => this.handleSignOut()}>Sign Out</button>
-      </section>
-    );
+        <div className="px-3"><img src={this.props.userInfo.photoURL} className="rounded" alt="" /></div>
+
+      </nav>
+
+    )
   }
 }
 

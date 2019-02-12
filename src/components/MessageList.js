@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import '.././roomdisplay.css';
+import SendMessage from './SendMessage';
+import '../roomdisplay.css';
+import { convertDateTime } from '../util/timedate';
 
 class MessageList extends Component {
   constructor(props) {
@@ -16,28 +18,20 @@ class MessageList extends Component {
       }
     };
 
-    this.messagesRef = this.props.firebase.database().ref('messages');
+    this.messagesRef = this.props.firebase.database().ref("messages");
     };
 
 
   componentDidMount() {
 
-    this.messagesRef.orderByChild("key").on('child_added', snapshot => {
+    this.messagesRef.orderByChild("key").on("child_added", snapshot => {
       const message = snapshot.val();
       message.key = snapshot.key;
 
-    this.setState({ messages: this.state.messages.concat( message )
+    this.setState({
+      messages: this.state.messages.concat(message)
     })
   });
-}
-
-handleChange(e) {
-    this.setState({
-        newMessage: e.target.value,
-        roomId: this.props.activeRoomId,
-        username: this.props.user ? this.props.user.displayName: "Guest"
-    });
-
 }
 
 setMessage(e){
@@ -50,20 +44,22 @@ setMessage(e){
     key: ''
   }
 
-  this.setState({ newMessage: newMessage });
+  this.setState({  newMessage: newMessage });
+
 }
 
-sendMessage(e) {
+sendMessage(e){
   e.preventDefault();
 
   this.messagesRef.push({
     content: this.state.newMessage.content,
     createdAt: this.props.firebase.database.ServerValue.TIMESTAMP,
-    roomId: this.state.newMessage.username
-  }).then(() => {
+    roomId: this.state.newMessage.roomId,
+    username: this.state.newMessage.username
+   }).then(() => {
 
     this.setState({
-      newMessage:{
+      newMessage: {
         content: '',
         createdAt: '',
         roomId: '',
@@ -72,9 +68,21 @@ sendMessage(e) {
       }
     });
 
-  })
+   })
 
 }
+
+deleteMessage(key) {
+  const filteredMessages= this.state.messages.filter(m => m.key !== key)
+  this.messagesRef.child(key).remove(function(error){
+    if (error){
+      console.log(error)
+      return false;
+    }
+  })
+  this.setState({ messages : filteredMessages })
+}
+
 
 render() {
   return(
@@ -84,18 +92,19 @@ render() {
     <h1>{this.props.activeRoom.name}</h1>
     <hr className="hr-light" />
     {this.state.messages.filter(message => (
-      message.roomId === this.props.activeRoom.apiKey
+      message.roomId === this.props.activeRoom.key
     )).map(message => (
       <div key={message.key}>
 
       <div className="row">
+
         <div className="col-10">
-          <p className="text-light font-weight-bold">{message.username}</p>
-          <p className="text-light">{message.content}</p>
+          <p className="text-dark font-weight-bold">{message.username}</p>
+          <p className="text-dark">{message.content}</p>
         </div>
 
         <div className="col-2 text-right">
-          <p className="text-message-time">{(message.createdAt)}</p>
+           <p className="text-message-time">{convertDateTime(message.createdAt)}&nbsp;<i className="fas fa-trash-alt nav-link" onClick={() => this.deleteMessage(message.key)}></i></p>
         </div>
 
         </div>
@@ -104,12 +113,12 @@ render() {
     )
     )}
 
-    <sendMessage
-    firebase={this.props.firebase}
-    setMessage={(e) => this.setMessage(e)}
-    sendMessage={(e) => this.sendMessage(e)}
-    newMessage={this.state.newMessage.content}
-    />
+    <SendMessage
+      firebase={this.props.firebase}
+      setMessage={(e) => this.setMessage(e)}
+      sendMessage={(e) => this.sendMessage(e)}
+      newMessage={this.state.newMessage.content}
+      />
   </div>
 );
 }
