@@ -16,6 +16,7 @@
     "react-dom": "^16.7.0",
     "react-modal": "^3.8.1",
     "react-scripts": "2.1.3",
+    "rn-bootstrap-buttons": "^1.0.4",
     "terser": "^3.14.1"
   },
   "scripts": {
