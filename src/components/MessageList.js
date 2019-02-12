@@ -6,23 +6,28 @@ class MessageList extends Component {
     super(props);
 
     this.state = {
-      messageList : [],
-      roomId: '',
-      newMessage: '',
-      username: '',
-      sendAt: ''
-}
+      messages : [],
+      newMessage: {
+        content: '',
+        createdAt: '',
+        roomId: '',
+        username: '',
+        key: '',
+      }
+    };
 
     this.messagesRef = this.props.firebase.database().ref('messages');
     };
 
 
   componentDidMount() {
-    console.log(this.messagesRef);
-    this.messagesRef.on('child_added', snapshot => {
+
+    this.messagesRef.orderByChild("key").on('child_added', snapshot => {
       const message = snapshot.val();
       message.key = snapshot.key;
-    this.setState({ messageList: this.state.messageList.concat( message )});
+
+    this.setState({ messages: this.state.messages.concat( message )
+    })
   });
 }
 
@@ -35,42 +40,78 @@ handleChange(e) {
 
 }
 
+setMessage(e){
 
-handleCreateMessage(e){
-  this.messagesRef.push({
-    message: this.state.newMessage,
-    roomId: this.state.roomId,
-    sendAt: this.props.firebase.database.ServerValue.TIMESTAMP,
-    user: this.state.username
-  })
-  this.setState({newMessage: ''});
-  e.preventDefault();
+  const newMessage = {
+    content: e.target.value,
+    createdAt: '',
+    roomId: this.props.activeRoom.key,
+    username: this.props.userInfo.displayName,
+    key: ''
+  }
+
+  this.setState({ newMessage: newMessage });
 }
 
+sendMessage(e) {
+  e.preventDefault();
+
+  this.messagesRef.push({
+    content: this.state.newMessage.content,
+    createdAt: this.props.firebase.database.ServerValue.TIMESTAMP,
+    roomId: this.state.newMessage.username
+  }).then(() => {
+
+    this.setState({
+      newMessage:{
+        content: '',
+        createdAt: '',
+        roomId: '',
+        username: '',
+        key: ''
+      }
+    });
+
+  })
+
+}
 
 render() {
   return(
-    <section>
-      <div className="messageField">
-        <div><h2>Room: {this.props.activeRoom}</h2></div>
-        <h3>Chat Below</h3>
 
-        {this.state.messageList.map( message =>
-          {if (message.roomId === this.props.activeRoomId) {
-            return <div key={message.key}><p>{message.user}:  {message.message}</p></div>
 
-          }
-          return null;}
-      )}
+  <div>
+    <h1>{this.props.activeRoom.name}</h1>
+    <hr className="hr-light" />
+    {this.state.messages.filter(message => (
+      message.roomId === this.props.activeRoom.apiKey
+    )).map(message => (
+      <div key={message.key}>
+
+      <div className="row">
+        <div className="col-10">
+          <p className="text-light font-weight-bold">{message.username}</p>
+          <p className="text-light">{message.content}</p>
+        </div>
+
+        <div className="col-2 text-right">
+          <p className="text-message-time">{(message.createdAt)}</p>
+        </div>
+
+        </div>
+        <hr className="hr-light" />
       </div>
-      <div>
-        <form className="enterMessageField" onSubmit={(e) => this.handleCreateMessage(e)}>
-          <input id="msgInput" type="text" placeholder="Enter Message" value={this.state.newMessage} onChange={ (e) => this.handleChange(e) }/>
-          <button class="btn" type="submit">Send Message</button>
-        </form>
-      </div>
-    </section>
-  );
+    )
+    )}
+
+    <sendMessage
+    firebase={this.props.firebase}
+    setMessage={(e) => this.setMessage(e)}
+    sendMessage={(e) => this.sendMessage(e)}
+    newMessage={this.state.newMessage.content}
+    />
+  </div>
+);
 }
 }
 

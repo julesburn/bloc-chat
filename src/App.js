@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import * as firebase from 'firebase';
-import RoomList from './components/RoomList';
-import MessageList from './components/MessageList';
-import User from './components/User';
+import ChatRoom from './components/ChatRoom';
 
 var config = {
   apiKey: "AIzaSyC0YBs_byzdaOmeXnqhgQ39Aw_V-YioWqY",
@@ -18,49 +16,61 @@ firebase.initializeApp(config);
   class App extends Component {
     constructor(props){
       super(props);
-        this.state = {
-          activeRoom: null,
-          activeRoomId: "",
-          user: null,
+
+        this.defaultUserInfo = {
+          displayName: "Guest",
+          email: '',
+          photoURL: <i class="far fa-user-circle"></i>,
+          isLoggedIn: false
         }
+
+        this.state = {
+          activeRoom: {},
+          roomToDelete: {},
+          userInfo: this.defaultUserInfo
+    };
+
+    this.roomsRef = firebase.database().ref("rooms");
+    this.roomsRef.orderByChild("order_by_name").limitToFirst(1).on("child_added", snapshot => {
+      const activeRoom = snapshot.val();
+      activeRoom.key = snapshot.key;
+      this.setState({activeRoom: activeRoom});
+    })
+  }
+
+  setActiveRoom(room){
+    this.setState({ activeRoom: room });
+  }
+
+    setRoomToDelete(room) {
+      this.setState({ roomToDelete: room })
     }
 
-    setActiveRoom = (selectedRoom) => {
-      this.setState({activeRoom: selectedRoom.name });
-      this.setState({activeRoomId: selectedRoom.key });
-    }
-
-    setUser = (user) => {
-      this.setState({user: user});
-    }
+    setUserInfo(user) {
+      user === null ? this.setState({userInfo: this.defaultUserInfo}) : this.setSTate(
+        {userInfo: {
+          displayName: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          isLoggedIn: true
+        }})
+      }
 
     render() {
       return (
-      <div className="d-flex flex-row h-100">
-        <div className="left-nav h-100 px-3 py-3">
-          <RoomList
-            firebase = {firebase}
-            setActiveRoom={this.setActiveRoom.bind(this)}
-            setRoomToDelete={(room) => this.props.setRoomToDelete(room)}
+        <div>
+          <ChatRoom
+            firebase={firebase}
+            setActiveRoom={(room) => this.setActiveRoom(room)}
+            setUserInfo={(user) => this.setUserInfo(user)}
+            setRoomToDelete={(room) => this.setRoomToDelete(room)}
+            activeRoom={this.state.activeRoom}
+            roomToDelete={this.state.roomToDelete}
+            userInfo={this.state.userInfo}
             />
-          </div>
-          <div className="container-fluid py-0 px-4">
-            <User
-              firebase={firebase}
-              setUser={this.setUser}
-              user={this.state.user}
-             />
-            <MessageList
-              firebase = {firebase}
-              roomToDelete={this.state.roomToDelete}
-              activeRoom={this.state.activeRoom}
-              activeRoomId={this.state.activeRoomId}
-              user={this.state.user}
-              />
-            </div>
-          </div>
+        </div>
       );
-        }
-      }
+    }
+  }
 
   export default App;

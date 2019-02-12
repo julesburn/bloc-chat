@@ -1,43 +1,88 @@
-
-import React, { Component } from 'react';
-import '.././roomdisplay.css';
-import DeleteRoom from './DeleteRoom'
+import React, { Component } from "react";
+import DeleteRoom from './DeleteRoom';
+import EditRoomName from './EditRoomName';
 
 class RoomList extends Component {
   constructor(props) {
     super(props);
+
       this.state = {
         rooms : [],
         newRoom: '',
+        editedRoomName: '',
+        roomToEdit: {},
         deletedRoom: '',
-    }
-
-    this.roomsRef = this.props.firebase.database().ref('rooms')
     };
 
+    this.roomsRef = props.firebase.database().ref('rooms');
+    }
+
   componentDidMount() {
-    this.roomsRef.on('child_added', snapshot => {
+    this.roomsRef.orderByChild("order_by_name").on("child_added", snapshot => {
       const room = snapshot.val();
       room.key = snapshot.key;
     this.setState({ rooms: this.state.rooms.concat( room )});
   });
 }
 
-handleChange(event){
-  this.setState({newRoom: event.target.value});
+handleRoomNameChange(e) {
+  const newRoomName = e.target.value;
+  this.setState({newRoomName: newRoomName})
 }
 
 createRoom(e){
-  this.roomsRef.push({
-    name: this.state.newRoom
-  });
-  this.setState({newRoom: ''})
   e.preventDefault();
+  const newRoomName = this.state.newRoomName
+
+  if ((!newRoomName || this.findRoomByName(newRoomName))) {
+    return;
+  }
+
+  const key = this.roomsRef.push({
+    name: newRoomName,
+    order_by_name: newRoomName.toLowerCase()
+  }).key;
+
+  const newRoom = {
+    name: newRoomName,
+    order_by_name: newRoomName.toLowerCase(),
+    key: key
+  }
+
+  this.setState({
+    rooms: this.state.rooms.concat(newRoom),
+    newRoomName: ""
+  })
+
 }
 
-setRoom(room){
-  this.props.setActiveRoom(room);
-  console.log(room)
+setRoomToEdit(room) {
+  this.setState({ roomToEdit: room })
+}
+
+handleEditRoomName(room) {
+  this.setState({editedRoomName: room.target.value });
+}
+
+renameRoom(e){
+  e.preventDefault();
+
+  const newRoomName = this.state.editedRoomName
+  if (!newRoomName){return;}
+
+  const newEditedRoom = {
+    name: newRoomName,
+    order_by_name: newRoomName.toLowerCase(),
+    key: this.state.roomToEdit.key
+  }
+
+  this.roomsRef.child(newEditedRoom.key)
+  .update({"name":newEditedRoom.name,
+  "order_by_name":newEditedRoom.order_by_name
+})
+
+const filtered = this.state.rooms.filter(room => room.key !== newEditedRoom.key);
+this.setState({rooms: filtered.concat(newEditedRoom)})
 }
 
 deleteRoom(room){
@@ -50,39 +95,56 @@ deleteRoom(room){
     }
   })
   this.props.setActiveRoom(newRooms[0])
-  this.setState({rooms : newRooms})
+  this.setState({rooms: newRooms})
+}
+
+findRoomByName(roomName){
+  return this.state.rooms.find(room => roomName.toLowerCase() === room.name.toLowerCase())
 }
 
 render() {
   return(
+
     <div className="h-100">
-      <form onSubmit={(event) => this.createRoom(event)}>
+      <form onSubmit={(e) => this.createRoom(e)}>
         <div className="input-group mb-3">
           <input type="text"
-          value={this.state.newRoom}
-          placeholder="Enter Name"
-          onChange={ (e) => this.handleChange(e)}
-          />
+            className="form-control"
+            placeholder="Room Name"
+            aria-label="Room Name"
+            aria-describedby="button-roomname"
+            value={this.state.newRoomName}
+            onChange={e => this.handleRoomNameChange(e)}
+            />
+
           <div className="input-group-append">
             <input className="btn btn-primary"
             type="submit"
             id="button-roomname"
-            value="Create New Room"
+            value="NEW ROOM"
             />
           </div>
         </div>
       </form>
 
-    {this.state.rooms.map((room) =>{
+    {this.state.rooms.map((room) =>  {
 
         return(
 
           <div key={room.key}
-           className={room.key === this.props.activeRoomId ? "nav-link active d-flex" : "nav-link d-flex"}>
+           className={room.key === this.props.activeRoom.key ? "nav-link active d-flex" : "nav-link d-flex"}>
 
             <div className="flex-grow-1" onClick={() => this.props.setActiveRoom(room)}>
               {room.name}
             </div>
+
+      <EditRoomName
+        room={room}
+        editedRoomName={this.state.editedRoomName}
+        renameRoom={(room) => this.renameRoom(room)}
+        handleEditRoomName={(room) => this.handleEditRoomName(room)}
+        setRoomToEdit={(room) => this.setRoomToEdit(room)}
+        />
 
       <DeleteRoom
         room={room}
@@ -90,7 +152,7 @@ render() {
         setRoomToDelete={(room) => this.props.setRoomToDelete(room)}
         />
 
-        
+
       </div>
     )
   })}
@@ -100,3 +162,14 @@ render() {
 }
 
 export default RoomList;
+
+///        <div className="input-group mb-3">
+        ///  <input type="text"
+          ///className="form-control"
+        ///  placeholder="Room Name"
+          ///aria-label="Room Name"
+        ///  aria-describedby="button-roomname"
+        ///  value={this.state.newRoomName}
+        ///  placeholder="Enter Name"
+        ///  onChange={ (e) => this.handleRoomNameChange(e)}
+        ///  />
