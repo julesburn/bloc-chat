@@ -36,31 +36,29 @@ firebase.initializeApp(config);
 
     render() {
       return (
-        <section className="mainBox">
-          <div className="row">
-            <div className="column1">
-              <RoomList
-              firebase = {firebase}
-              setActiveRoom={this.setActiveRoom.bind(this)}
-              />
-              <User
+      <div className="d-flex flex-row h-100">
+        <div className="left-nav h-100 px-3 py-3">
+          <RoomList
+            firebase = {firebase}
+            setActiveRoom={this.setActiveRoom.bind(this)}
+            setRoomToDelete={(room) => this.props.setRoomToDelete(room)}
+            />
+          </div>
+          <div className="container-fluid py-0 px-4">
+            <User
               firebase={firebase}
               setUser={this.setUser}
               user={this.state.user}
-              />
-            </div>
-          </div>
-          <div className="row">
-            <div className="column2">
-              <MessageList
+             />
+            <MessageList
               firebase = {firebase}
+              roomToDelete={this.state.roomToDelete}
               activeRoom={this.state.activeRoom}
               activeRoomId={this.state.activeRoomId}
               user={this.state.user}
               />
             </div>
           </div>
-        </section>
       );
         }
       }
