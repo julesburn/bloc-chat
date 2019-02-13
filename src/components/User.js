@@ -49,7 +49,7 @@ class User extends Component {
         <span className="user-title">{this.props.userInfo.displayName}</span><br/>
         <span className="user-subtitle">{this.props.userInfo.email}</span>
         </div>
-        <div className="px-3"><img src={this.props.userInfo.photoURL} className="rounded" alt="" /></div>
+        <div className="px-3"><img src={this.props.userInfo.photoURL} className="w-25 h-25 rounded-circle" alt="" /></div>
 
       </nav>
 
