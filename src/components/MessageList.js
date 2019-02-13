@@ -89,14 +89,14 @@ render() {
 
 
   <div>
-    <h1>{this.props.activeRoom.name}</h1>
+    <h1 className="bg-light mx-auto border border-dark rounded-pill p-3" >{this.props.activeRoom.name}</h1>
     <hr className="hr-light" />
     {this.state.messages.filter(message => (
       message.roomId === this.props.activeRoom.key
     )).map(message => (
       <div key={message.key}>
 
-      <div className="row">
+      <div className="row mx-auto border border-dark rounded-pill p-3">
 
         <div className="col-10">
           <p className="text-dark font-weight-bold">{message.username}</p>

@@ -45,7 +45,7 @@ class User extends Component {
         )
       }
       </div>
-      <div className="user-info">
+      <div className="user-info bg-light border border-dark rounded-pill p-3">
         <span className="user-title">{this.props.userInfo.displayName}</span><br/>
         <span className="user-subtitle">{this.props.userInfo.email}</span>
         </div>

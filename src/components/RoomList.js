@@ -105,13 +105,13 @@ findRoomByName(roomName){
 render() {
   return(
 
-    <div className="h-100">
+    <div className="h-100 bg-light border border-dark rounded p-3">
       <form onSubmit={(e) => this.createRoom(e)}>
-        <div className="input-group mb-3">
+        <div className="input-group mt-3">
           <input type="text"
             className="form-control"
-            placeholder="Room Name"
-            aria-label="Room Name"
+            placeholder="Enter Name"
+            aria-label="Enter Name"
             aria-describedby="button-roomname"
             value={this.state.newRoomName}
             onChange={e => this.handleRoomNameChange(e)}
@@ -121,7 +121,7 @@ render() {
             <input className="btn btn-primary"
             type="submit"
             id="button-roomname"
-            value="NEW ROOM"
+            value="Create New Room"
             />
           </div>
         </div>
@@ -134,7 +134,7 @@ render() {
           <div key={room.key}
            className={room.key === this.props.activeRoom.key ? "nav-link active d-flex" : "nav-link d-flex"}>
 
-            <div className="flex-grow-1" onClick={() => this.props.setActiveRoom(room)}>
+            <div className="flex-grow-1 font-weight-bold" onClick={() => this.props.setActiveRoom(room)}>
               {room.name}
             </div>
 
@@ -162,14 +162,3 @@ render() {
 }
 
 export default RoomList;
-
-///        <div className="input-group mb-3">
-        ///  <input type="text"
-          ///className="form-control"
-        ///  placeholder="Room Name"
-          ///aria-label="Room Name"
-        ///  aria-describedby="button-roomname"
-        ///  value={this.state.newRoomName}
-        ///  placeholder="Enter Name"
-        ///  onChange={ (e) => this.handleRoomNameChange(e)}
-        ///  />
